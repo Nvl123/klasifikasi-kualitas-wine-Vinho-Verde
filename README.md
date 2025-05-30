@@ -36,7 +36,92 @@ dalam kategori kualitas yang sesuai untuk strategi pemasaran.
 
 ---
 
+## **Data Understanding**
+### **Dataset Informations**
+| Jenis | Keterangan |
+|-------|------------|
+|Nama   | Wine Quality|
+|Sumber | [Kaggle](https://www.kaggle.com/datasets/rajyellow46/wine-quality)|
+|Pengelola| [Raj Parmar](https://www.kaggle.com/rajyellow46)
+|Lisensi| Tidak Spesifik|
+|Visibilitas| Publik|
+|Label| *Earth and Nature, Classification, Alcohol, Regression*|
+|Kebergunaan| 7.6|
 
+dataset ini diambil dari kaggle yang di unggah atau di kelola oleh [Raj Parmar](https://www.kaggle.com/rajyellow46) namun setelah di telusuri kembali ternyata asal dataset ini dari repository [UC Irvine Datasets](https://archive.ics.uci.edu/datasets) yang di unggah dengan nama yang sama [Wine Quality](https://archive.ics.uci.edu/dataset/186/wine+quality).
+
+### **Variabel Description**
+| type  | fixed acidity | volatile acidity | citric acid | residual sugar | chlorides | free sulfur dioxide | total sulfur dioxide | density  | pH   | sulphates | alcohol | quality |
+|-------|---------------|------------------|-------------|----------------|-----------|---------------------|----------------------|----------|------|-----------|---------|---------|
+| red   | 7.2           | 0.63             | 0.03        | 2.20           | 0.080     | 17.0                | 88.0                 | 0.99745  | 3.53 | 0.58      | 9.8     | 6       |
+| white | 7.4           | 0.20             | 0.37        | 16.95          | 0.048     | 43.0                | 190.0                | 0.99950  | 3.03 | 0.42      | 9.2     | 6       |
+| white | 7.4           | 0.29             | 0.25        | 3.80           | 0.044     | 30.0                | 114.0                | 0.99200  | 3.11 | 0.40      | 11.0    | 6       |
+| white | 6.7           | 0.18             | 0.28        | 10.20          | 0.039     | 29.0                | 115.0                | 0.99469  | 3.11 | 0.45      | 10.9    | 7       |
+| white | 7.3           | 0.25             | 0.29        | 7.50           | 0.049     | 38.0                | 158.0                | 0.99650  | 3.43 | 0.38      | 9.6     | 5       |
+| white | 6.9           | 0.19             | 0.33        | 1.60           | 0.043     | 63.0                | 149.0                | 0.99250  | 3.44 | 0.52      | 10.8    | 5       |
+| red   | 6.8           | 0.61             | 0.20        | 1.80           | 0.077     | 11.0                | 65.0                 | 0.99710  | 3.54 | 0.58      | 9.3     | 5       |
+| white | 7.6           | 0.29             | 0.29        | 4.40           | 0.051     | 26.0                | 146.0                | 0.99390  | 3.16 | 0.39      | 10.2    | 5       |
+| white | 6.9           | 0.26             | 0.29        | 4.20           | 0.043     | 33.0                | 114.0                | 0.99020  | 3.16 | 0.31      | 12.5    | 6       |
+| white | 6.4           | 0.35             | 0.28        | 1.60           | 0.037     | 31.0                | 113.0                | 0.98779  | 3.12 | 0.40      | 14.2    | 7       |
+
+
+dari tabel di atas kita mendapatkan informasi jumlah label atau variabel dari datase. terdapat 13 variabel:
+1. `type` -> tipe wine 
+2. `fixed acidity`-> Asam tetap dalam anggur
+3. `Volatile acidity` -> Asam yang mudah menguap
+4. `Citric acid` -> Asam Sitrat
+5. `Residual sugar` -> Gula sisa pasca fermentasi
+6. `Chlorides` -> kandungan garam (Klorida)
+7. `Free sulfur dioxide` -> SO₂ bebas yang berfungsi sebagai pengawet
+8. `Total sulfur dioxide` -> Jumlah total SO₂ (bebas + terikat) 
+9. `Density` -> Masa jenis anggur
+10. `pH` -> Tingkat keasaman
+11. `Sulphates` -> Kandungan Sulfat
+12. `Alcohol` -> Kandungan alkohol dalam persen volume
+13. `Quality` -> Skor kualitas anggur  
+
+
+| No | Column                | Non-Null Count | Data Type |
+|----|-----------------------|----------------|-----------|
+| 0  | type                  | 6497           | object    |
+| 1  | fixed acidity         | 6487           | float64   |
+| 2  | volatile acidity      | 6489           | float64   |
+| 3  | citric acid           | 6494           | float64   |
+| 4  | residual sugar        | 6495           | float64   |
+| 5  | chlorides             | 6495           | float64   |
+| 6  | free sulfur dioxide   | 6497           | float64   |
+| 7  | total sulfur dioxide  | 6497           | float64   |
+| 8  | density               | 6497           | float64   |
+| 9  | pH                    | 6488           | float64   |
+| 10 | sulphates             | 6493           | float64   |
+| 11 | alcohol               | 6497           | float64   |
+| 12 | quality               | 6497           | int64     |
+
+kemudian pada tabel di atas kita mendapatkan informasi:
+1. 10 variabel berbentuk `float64`, 1 berbentuk `object` dan 1 berbentuk `int64`
+2. terdapat beberapa nilai null atau mungkin duplikat pada data, ini terlihat dari jumlah baris pada beberapa kolom jumlahnya berbeda.
+
+| Statistik | fixed acidity | volatile acidity | citric acid | residual sugar | chlorides | free sulfur dioxide | total sulfur dioxide | density  | pH    | sulphates | alcohol | quality |
+|-----------|---------------|------------------|-------------|----------------|-----------|---------------------|----------------------|----------|-------|-----------|---------|---------|
+| count     | 6487          | 6489             | 6494        | 6495           | 6495      | 6497                | 6497                 | 6497     | 6488  | 6493      | 6497    | 6497    |
+| mean      | 7.22          | 0.34             | 0.32        | 5.44           | 0.06      | 30.53               | 115.74                | 0.99     | 3.22  | 0.53      | 10.49   | 5.82    |
+| std       | 1.30          | 0.16             | 0.15        | 4.76           | 0.04      | 17.75               | 56.52                 | 0.003    | 0.16  | 0.15      | 1.19    | 0.87    |
+| min       | 3.80          | 0.08             | 0.00        | 0.60           | 0.01      | 1.00                | 6.00                  | 0.99     | 2.72  | 0.22      | 8.00    | 3.00    |
+| 25%       | 6.40          | 0.23             | 0.25        | 1.80           | 0.04      | 17.00               | 77.00                 | 0.99     | 3.11  | 0.43      | 9.50    | 5.00    |
+| 50%       | 7.00          | 0.29             | 0.31        | 3.00           | 0.05      | 29.00               | 118.00                | 0.99     | 3.21  | 0.51      | 10.30   | 6.00    |
+| 75%       | 7.70          | 0.40             | 0.39        | 8.10           | 0.07      | 41.00               | 156.00                | 0.99     | 3.32  | 0.60      | 11.30   | 6.00    |
+| max       | 15.90         | 1.58             | 1.66        | 65.80          | 0.61      | 289.00              | 440.00                | 1.04     | 4.01  | 2.00      | 14.90   | 9.00    |
+
+
+dari tabel di atas kita mendapatkan beberapa informasi tambahan :
+1. Kadar rata-rata fixed acidity adalah sekitar 7.22.
+2. Residual sugar (gula tersisa) rata-rata 5.44, yang menunjukkan sebagian besar anggur memiliki kadar gula rendah sampai sedang.
+3. Variabel residual sugar dan total sulfur dioxide memiliki standar deviasi cukup besar (4.76 dan 56.52), menunjukkan variasi nilai yang luas.
+4. 50% (median) dari fixed acidity adalah 7.00, menunjukkan distribusi simetris mendekati rata-rata.
+5. Median residual sugar adalah 3.00, lebih rendah dari rata-rata (5.44), artinya distribusi agak skew ke kanan (ada beberapa nilai tinggi ekstrim).
+6. Fixed acidity maksimal 15.90, cukup jauh dari rata-rata, menunjukkan adanya beberapa anggur dengan kandungan asam tinggi.
+7. Residual sugar maksimum sangat tinggi yaitu 65.80, kemungkinan ada anggur yang sangat manis.
+ 
 
 
 
@@ -51,3 +136,4 @@ dalam kategori kualitas yang sesuai untuk strategi pemasaran.
 7. *Adithya, A. (2024). Wine Quality Detection Using Machine Learning: A Comparative Analysis of Classification Algorithms. INTERANTIONAL JOURNAL OF SCIENTIFIC RESEARCH IN ENGINEERING AND MANAGEMENT. https://doi.org/10.55041/ijsrem40168.*
 8. *Talwandi, N., Khare, S., & Yadav, A. (2024). SipSmart: Elevating Palates with Machine Learning for Wine Quality Prediction. 2024 International Conference on Emerging Smart Computing and Informatics (ESCI), 1-5. https://doi.org/10.1109/ESCI59607.2024.10497300.*
 9. *Cortez, P., Cerdeira, A., Almeida, F., Matos, T., & Reis, J. (2009). Modeling wine preferences by data mining from physicochemical properties. Decis. Support Syst., 47, 547-553. https://doi.org/10.1016/j.dss.2009.05.016.*
+10. *Cortez, P., Cerdeira, A., Almeida, F., Matos, T., & Reis, J. (2009). Wine Quality. UCI Machine Learning Repository. https://doi.org/10.24432/C56S3T.*
