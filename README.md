@@ -121,9 +121,122 @@ dari tabel di atas kita mendapatkan beberapa informasi tambahan :
 5. Median residual sugar adalah 3.00, lebih rendah dari rata-rata (5.44), artinya distribusi agak skew ke kanan (ada beberapa nilai tinggi ekstrim).
 6. Fixed acidity maksimal 15.90, cukup jauh dari rata-rata, menunjukkan adanya beberapa anggur dengan kandungan asam tinggi.
 7. Residual sugar maksimum sangat tinggi yaitu 65.80, kemungkinan ada anggur yang sangat manis.
- 
+
+### Univariate Analysis
+
+![Univariate](https://drive.google.com/uc?export=view&id=1xdYhYAx_5MkK-10LMGkNNfhoCWNG8YRG)
+
+dari hasil histogram maka:
+
+1. `Fixed Acidity`-> cenderung normal dengan puncak frekuensi sekitar 6-7.
+2. `Volatile Acidity` -> Distribusinya miring ke kanan, dengan nilai mayoritas volatile acidity rendah, sekitar 0.2-0.4, dan ada beberapa nilai tinggi yang jarang.
+3. `Citric Acid` -> Sebagian besar nilai rendah, sekitar 0.2-0.4, dengan distribusi miring ke kanan dan banyak nilai kecil mendekati nol.
+4. `Residual Sugar`-> didominasi oleh angka rendah (0-10), tapi ada beberapa nilai outlier yang cukup tinggi (hingga sekitar 60).
+5. `Chlorides`-> sangat terkonsentrasi di bawah 0.1 dengan puncak frekuensi sangat tinggi pada nilai rendah.
+6. `Free Sulfur Dioxide`-> berada di kisaran 10-50, dengan frekuensi menurun untuk nilai yang lebih tinggi.
+7. `Total Sulfur Dioxide` -> relatif lebih merata, tapi tetap banyak nilai yang berkisar 100-200.
+8. `Density`-> hampir seragam pada nilai sekitar 0.99-1.0 dengan sedikit variasi, mendekati distribusi normal dengan puncak di sekitar 0.995.
+9. `pH` -> mendekati normal dengan nilai puncak sekitar 3.2-3.3.
+10. `Sulphates` -> Mayoritas berkisar di 0.4-0.7, dengan distribusi miring ke kanan.
+11. `Alcohol` -> tersebar cukup merata antara 9-12, dengan puncak frekuensi sekitar 9-10 dan 11.
+12. `Quality` -> Distribusi kualitas anggur menunjukkan nilai paling banyak pada 5 dan 6, dengan sedikit nilai kualitas tinggi (7-8) dan rendah (3-4).
+
+**Kesimpulan:**
+
+- Sebagian besar fitur menunjukkan distribusi yang tidak simetris, dengan beberapa memiliki outlier yang signifikan seperti residual sugar dan sulfur dioxide.
+
+- Nilai kualitas anggur lebih sering berada di rentang menengah (5-6).
+
+- Data menunjukkan beberapa fitur sangat terkonsentrasi pada nilai rendah (seperti chlorides dan volatile acidity).
+
+### Multivariate Analysis
 
 
+![Multivariate](https://drive.google.com/uc?export=view&id=1qco5JxFETuNBgEFfgPnWUNrs9MKvc8cc)
+
+**Kesimpulan**
+dari heatmap korelasi di atas dapat disimpulkan `alcohol` memiliki memiliki korelasi yang sangat baik dengan `quality`
+
+## **Data Preparation**
+### **Calculate and remove missing values**
+
+| Kolom                 | Jumlah Missing Values |
+|-----------------------|----------------------|
+| type                  | 0                    |
+| fixed acidity         | 10                   |
+| volatile acidity      | 8                    |
+| citric acid           | 3                    |
+| residual sugar        | 2                    |
+| chlorides             | 2                    |
+| free sulfur dioxide   | 0                    |
+| total sulfur dioxide  | 0                    |
+| density               | 0                    |
+| pH                    | 9                    |
+| sulphates             | 4                    |
+| alcohol               | 0                    |
+| quality               | 0                    |
+
+Karena jumlah missing values sangat sedikit dibanding total data, menghapusnya tidak akan mengurangi informasi secara signifikan. Ini juga lebih sederhana dan menjaga kualitas data agar analisis dan model menjadi lebih akurat. Jadi, penghapusan missing values adalah pilihan yang tepat.
+
+
+### **Calculate and remove duplicates values**
+Setelah pengecekan, ditemukan `1.168` data duplikat. Data ini perlu dihapus agar tidak memengaruhi hasil analisis dan model, karena duplikat dapat menyebabkan bias dan overfitting. Oleh karena itu, penghapusan data duplikat adalah langkah penting untuk menjaga kualitas dataset.
+
+
+### **Calculate and remove outliers**
+
+![boxplot](https://drive.google.com/uc?export=view&id=/1Qr7Q4ekoxaQ0RZXbIM5OIk0SinyeDg7Xc)
+
+dari boxplot di atas dapat disimpulkan:
+- Banyak fitur memiliki outlier yang signifikan, terutama untuk sulfur dioxide (free dan total), residual sugar, dan chlorides.
+- Sebagian besar fitur menunjukkan distribusi data yang cukup terkonsentrasi di rentang tertentu, dengan outlier yang cukup jauh dari nilai normal.
+- Untuk fitur seperti density, nilai sangat homogen.
+- Outlier-outlier ini perlu diperhatikan karena dapat memengaruhi analisis atau pemodelan yang akan dilakukan.
+
+untuk menangani outlier pada data akan digunakan metode IQR. Metode IQR adalah teknik statistik yang digunakan untuk mendeteksi dan menangani outlier pada dataset. IQR mengukur rentang tengah data dengan menghitung selisih antara kuartil ketiga (Q3) dan kuartil pertama (Q1).
+
+**Langkah-langkah metode IQR**
+1. Hitung Kuartil Pertama (Q1): Nilai yang memisahkan 25% data terendah.
+2. Hitung Kuartil Ketiga (Q3): Nilai yang memisahkan 25% data tertinggi.
+3. Hitung IQR:  IQR = Q3 - Q1
+4. Tentukan batas bawah dan batas atas:  
+ - Batas bawah = Q1 - 1.5 × IQR
+ - Batas atas = Q3 + 1.5 × IQR
+5. Identifikasi Outlier: Data yang berada di luar rentang antara batas bawah dan batas atas dianggap outlier.
+
+Dengan cara ini, IQR mampu mengidentifikasi data yang jauh dari distribusi normal tanpa asumsi distribusi data tertentu. Menghapus outlier menggunakan metode IQR membantu menjaga kualitas data, mencegah distorsi statistik, dan meningkatkan performa model machine learning dengan fokus pada pola data yang representatif.
+
+### **Encoding**
+Model machine learning tidak bisa mengenal data bertipe object secara langsung, karena algoritma tersebut hanya memproses data numerik. Oleh karena itu, kita perlu melakukan encoding untuk mengubah data object menjadi angka yang dapat dipahami oleh model. Kolom type yang menyimpan tipe wine, yaitu white dan red, bertipe data object. Oleh karena itu, kolom ini perlu di-encode menggunakan metode label encoding.
+
+Alasannya, label encoding mengubah kategori menjadi angka sederhana (misal: white → 0, red → 1) sehingga model bisa mengenali dan memprosesnya. Metode ini efisien dan cocok untuk kolom dengan dua kategori seperti ini, serta tidak menambah dimensi data seperti one-hot encoding. Dengan encoding, model dapat memanfaatkan informasi tipe wine secara efektif dalam proses pelatihan dan prediksi.
+
+### **Data Splittinh**
+Data splitting dilakukan agar model dapat belajar pola dari data training dan dievaluasi dengan data testing yang benar-benar baru, sehingga performa model menjadi lebih valid dan tidak bias.
+
+Data splitting dilakukan sebelum penanganan skew dan standardisasi karena agar informasi dari data testing tidak “bocor” ke proses training (data leakage). Jika transformasi dilakukan sebelum split, parameter seperti mean dan standar deviasi dihitung dari seluruh data, termasuk data testing, sehingga evaluasi model tidak akurat.
+
+Dengan melakukan split terlebih dahulu, transformasi seperti log transform dan standardisasi hanya dihitung dari data training dan kemudian diterapkan ke data testing, sehingga model diuji dengan data yang benar-benar baru dan hasil evaluasi lebih dapat dipercaya.
+
+### **Handle Skewed Data**
+Data yang skewed atau miring, terutama dengan distribusi yang tidak simetris, dapat menyulitkan model machine learning dalam memahami pola data secara efektif. Oleh karena itu, kita perlu melakukan transformasi untuk memperbaiki distribusi data agar lebih mendekati normal.
+
+Salah satu metode yang umum digunakan adalah log1p transformasi (log(1 + x)), yang khususnya efektif untuk data dengan nilai skewed ke kanan (right-skewed).
+
+Alasannya, log1p transformasi mengurangi pengaruh nilai ekstrim dengan menekan nilai besar sehingga distribusi data menjadi lebih simetris dan variansnya lebih stabil. Selain itu, penambahan 1 sebelum log menghindari masalah matematis seperti log(0) yang tidak terdefinisi.
+
+Dengan transformasi ini, model machine learning dapat lebih mudah mempelajari pola dalam data, meningkatkan akurasi, dan mempercepat proses pelatihan. Transformasi juga membantu model dalam melakukan generalisasi dengan lebih baik terhadap data baru.
+
+### **Standarization**
+Model machine learning biasanya bekerja lebih baik jika semua fitur input berada pada skala yang sama. Namun, data asli sering kali memiliki rentang nilai yang berbeda-beda, misalnya kadar alkohol bisa berkisar antara 8 sampai 15, sementara pH hanya sekitar 2 sampai 4.
+
+Oleh karena itu, kita perlu melakukan standarisasi untuk mengubah fitur-fitur tersebut ke dalam skala yang seragam, yaitu dengan mean 0 dan standar deviasi 1.
+
+Alasannya, standarisasi:
+- Membantu model machine learning belajar lebih cepat dan stabil, karena nilai fitur tidak lagi berada pada skala yang sangat berbeda.
+- Mencegah fitur dengan nilai besar mendominasi proses pelatihan dan pengambilan keputusan model.
+- Meningkatkan performa dan akurasi model, terutama untuk algoritma yang sensitif terhadap skala seperti SVM, KNN, dan regresi linier.
+- Dengan melakukan standarisasi, model dapat memanfaatkan semua fitur secara seimbang sehingga hasil prediksi menjadi lebih akurat dan dapat diandalkan.
 
 ---
 
