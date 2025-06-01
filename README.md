@@ -53,16 +53,9 @@ dataset ini diambil dari kaggle yang di unggah atau di kelola oleh [Raj Parmar](
 ### **Variabel Description**
 | type  | fixed acidity | volatile acidity | citric acid | residual sugar | chlorides | free sulfur dioxide | total sulfur dioxide | density  | pH   | sulphates | alcohol | quality |
 |-------|---------------|------------------|-------------|----------------|-----------|---------------------|----------------------|----------|------|-----------|---------|---------|
-| red   | 7.2           | 0.63             | 0.03        | 2.20           | 0.080     | 17.0                | 88.0                 | 0.99745  | 3.53 | 0.58      | 9.8     | 6       |
-| white | 7.4           | 0.20             | 0.37        | 16.95          | 0.048     | 43.0                | 190.0                | 0.99950  | 3.03 | 0.42      | 9.2     | 6       |
-| white | 7.4           | 0.29             | 0.25        | 3.80           | 0.044     | 30.0                | 114.0                | 0.99200  | 3.11 | 0.40      | 11.0    | 6       |
-| white | 6.7           | 0.18             | 0.28        | 10.20          | 0.039     | 29.0                | 115.0                | 0.99469  | 3.11 | 0.45      | 10.9    | 7       |
-| white | 7.3           | 0.25             | 0.29        | 7.50           | 0.049     | 38.0                | 158.0                | 0.99650  | 3.43 | 0.38      | 9.6     | 5       |
-| white | 6.9           | 0.19             | 0.33        | 1.60           | 0.043     | 63.0                | 149.0                | 0.99250  | 3.44 | 0.52      | 10.8    | 5       |
-| red   | 6.8           | 0.61             | 0.20        | 1.80           | 0.077     | 11.0                | 65.0                 | 0.99710  | 3.54 | 0.58      | 9.3     | 5       |
-| white | 7.6           | 0.29             | 0.29        | 4.40           | 0.051     | 26.0                | 146.0                | 0.99390  | 3.16 | 0.39      | 10.2    | 5       |
-| white | 6.9           | 0.26             | 0.29        | 4.20           | 0.043     | 33.0                | 114.0                | 0.99020  | 3.16 | 0.31      | 12.5    | 6       |
-| white | 6.4           | 0.35             | 0.28        | 1.60           | 0.037     | 31.0                | 113.0                | 0.98779  | 3.12 | 0.40      | 14.2    | 7       |
+| white | 6.8           | 0.300            | 0.29        | 6.2            | 0.025     | 29.0                | 95.0                 | 0.99071  | 3.03 | 0.32      | 12.9    | 7       |
+| white | 6.4           | 0.220            | 0.56        | 14.5           | 0.055     | 27.0                | 159.0                | 0.99800  | 2.98 | 0.40      | 9.1     | 5       |
+| white | 6.4           | 0.595            | 0.14        | 5.2            | 0.058     | 15.0                | 97.0                 | 0.99510  | 3.38 | 0.36      | 9.0     | 4       |
 
 
 dari tabel di atas kita mendapatkan informasi jumlah label atau variabel dari datase. terdapat 13 variabel:
@@ -182,6 +175,36 @@ Karena jumlah missing values sangat sedikit dibanding total data, menghapusnya t
 ### **Calculate and remove duplicates values**
 Setelah pengecekan, ditemukan `1.168` data duplikat. Data ini perlu dihapus agar tidak memengaruhi hasil analisis dan model, karena duplikat dapat menyebabkan bias dan overfitting. Oleh karena itu, penghapusan data duplikat adalah langkah penting untuk menjaga kualitas dataset.
 
+### **Find Multicollinearity**
+
+Multikolinearitas terjadi saat dua fitur sangat berkorelasi, menyebabkan informasi yang tumpang tindih. Hal ini bisa membuat model jadi tidak stabil dan sulit diinterpretasi.
+
+Contoh output deteksi korelasi tinggi:
+
+`Highly correlated feature pairs (>0.7):`
+
+`free sulfur dioxide - total sulfur dioxide: 0.721`
+
+Artinya, fitur free sulfur dioxide dan total sulfur dioxide sangat berkaitan **(korelasi 0.721)**, sehingga salah satunya bisa dihilangkan atau diolah ulang untuk menghindari masalah multikolinearitas.
+
+### **Feature Engineering**
+
+1. Encoding variabel kategorikal:
+Variabel type diubah dari teks (white, red) menjadi angka (0, 1) karena komputer hanya bisa memproses data numerik dalam model machine learning.
+
+2. Pembuatan fitur baru:
+Beberapa fitur baru dibuat berdasarkan kombinasi dan rasio fitur asli untuk menangkap pola yang lebih kompleks, seperti:
+
+- total_acidity sebagai jumlah dari fixed acidity dan volatile acidity untuk merepresentasikan total keasaman.
+
+- acid_to_sugar_ratio mengukur keseimbangan antara asam dan gula, penting untuk rasa dan karakteristik anggur.
+
+- so2_ratio menunjukkan proporsi sulfur dioksida bebas terhadap total, relevan untuk kualitas dan pengawetan.
+
+- density_alcohol_interaction menangkap interaksi antara kepadatan dan kadar alkohol yang dapat memengaruhi sifat fisik anggur.
+
+Fitur-fitur ini dibuat berdasarkan pemahaman domain untuk memperkaya informasi dan meningkatkan performa model.
+
 
 ### **Calculate and remove outliers**
 
@@ -206,37 +229,69 @@ untuk menangani outlier pada data akan digunakan metode IQR. Metode IQR adalah t
 
 Dengan cara ini, IQR mampu mengidentifikasi data yang jauh dari distribusi normal tanpa asumsi distribusi data tertentu. Menghapus outlier menggunakan metode IQR membantu menjaga kualitas data, mencegah distorsi statistik, dan meningkatkan performa model machine learning dengan fokus pada pola data yang representatif.
 
-### **Encoding**
-Model machine learning tidak bisa mengenal data bertipe object secara langsung, karena algoritma tersebut hanya memproses data numerik. Oleh karena itu, kita perlu melakukan encoding untuk mengubah data object menjadi angka yang dapat dipahami oleh model. Kolom type yang menyimpan tipe wine, yaitu white dan red, bertipe data object. Oleh karena itu, kolom ini perlu di-encode menggunakan metode label encoding.
 
-Alasannya, label encoding mengubah kategori menjadi angka sederhana (misal: white → 0, red → 1) sehingga model bisa mengenali dan memprosesnya. Metode ini efisien dan cocok untuk kolom dengan dua kategori seperti ini, serta tidak menambah dimensi data seperti one-hot encoding. Dengan encoding, model dapat memanfaatkan informasi tipe wine secara efektif dalam proses pelatihan dan prediksi.
+### **Remove High Correlation Feature**
 
-### **Data Splittinh**
+- Menghapus fitur berkorelasi tinggi:
+  Fitur yang sangat berkorelasi (lebih dari 0.8) dihapus untuk menghindari multikolinearitas, yang dapat membuat model menjadi tidak stabil dan berlebihan dalam belajar pola yang sama berulang kali.
+
+- Pelatihan model Random Forest:  
+  Model dilatih dengan fitur yang sudah dikurangi korelasinya untuk menentukan pentingnya masing-masing fitur terhadap prediksi kualitas anggur.  
+  Alasan menggunakan Random Forest adalah karena model ini secara otomatis dapat mengukur kontribusi setiap fitur dalam proses prediksi, sehingga memudahkan identifikasi fitur yang paling berpengaruh tanpa perlu analisis manual yang rumit.
+
+
+- Memilih fitur terpenting:
+  Berdasarkan feature_importances_, dipilih 10 fitur teratas yang paling berpengaruh pada model. Langkah ini membantu menyederhanakan model sekaligus menjaga performa.
+**Daftar 10 fitur terpenting**
+
+No | Feature              | Importance
+---|----------------------|-----------
+1  | alcohol              | 0.1145
+2  | density              | 0.0981
+3  | so2_ratio            | 0.0881
+4  | volatile acidity     | 0.0880
+5  | total sulfur dioxide | 0.0817
+6  | sulphates            | 0.0788
+7  | chlorides            | 0.0787
+8  | residual sugar       | 0.0768
+9  | pH                   | 0.0768
+10 | free sulfur dioxide  | 0.0738
+
+Fitur final yang digunakan adalah 10 fitur teratas ini. Dengan memilih fitur ini, model menjadi lebih sederhana, cepat, dan fokus pada variabel yang paling memengaruhi prediksi kualitas anggur tanpa terganggu oleh fitur yang kurang relevan atau redundan.
+
+### **Handling imbalance class**
+
+Distribusi kelas target `quality` tidak seimbang, dimana beberapa kelas memiliki jumlah data sangat sedikit (misal kelas 3 dan 9), sementara kelas lain sangat dominan. Ketidakseimbangan ini dapat menyebabkan model bias terhadap kelas mayoritas dan performa buruk pada kelas minoritas. Untuk menangani ketidak seimbangan ini maka digunakan SMOTE (Synthetic Minority Over-sampling Technique) digunakan untuk membuat data sintetis pada kelas minoritas sehingga distribusi kelas menjadi seimbang. Teknik ini membantu model belajar dengan lebih adil dari semua kelas. setelah penggunaan SMOTE Distribusi kelas menjadi seimbang dengan jumlah sampel yang sama untuk setiap kelas (2032), sehingga model dapat lebih optimal dan tidak bias. Ukuran dataset juga meningkat dari jumlah asli menjadi 14224 data dengan 10 fitur.
+
+**Distribusi Kelas Sebelum dan Sesudah SMOTE**
+
+|**Original**|**Balanced**|
+|--------|--------|
+|3      13|3    2032|
+|4     159 |4    2032|
+|5    1456 |5    2032|
+|6    2032 |6    2032 |
+|7     784 |7    2032 | 
+|8     136 |8    2032 |
+|9       5 |9    2032 |
+
+Dataset shape after SMOTE: (14224, 10)
+
+
+### **Data Splitting**
 Data splitting dilakukan agar model dapat belajar pola dari data training dan dievaluasi dengan data testing yang benar-benar baru, sehingga performa model menjadi lebih valid dan tidak bias.
 
 Data splitting dilakukan sebelum penanganan skew dan standardisasi karena agar informasi dari data testing tidak “bocor” ke proses training (data leakage). Jika transformasi dilakukan sebelum split, parameter seperti mean dan standar deviasi dihitung dari seluruh data, termasuk data testing, sehingga evaluasi model tidak akurat.
 
 Dengan melakukan split terlebih dahulu, transformasi seperti log transform dan standardisasi hanya dihitung dari data training dan kemudian diterapkan ke data testing, sehingga model diuji dengan data yang benar-benar baru dan hasil evaluasi lebih dapat dipercaya.
 
-### **Handle Skewed Data**
-Data yang skewed atau miring, terutama dengan distribusi yang tidak simetris, dapat menyulitkan model machine learning dalam memahami pola data secara efektif. Oleh karena itu, kita perlu melakukan transformasi untuk memperbaiki distribusi data agar lebih mendekati normal.
 
-Salah satu metode yang umum digunakan adalah log1p transformasi (log(1 + x)), yang khususnya efektif untuk data dengan nilai skewed ke kanan (right-skewed).
+### Feature Scaling
+Fitur memiliki skala dan satuan yang berbeda-beda, yang dapat mempengaruhi performa model terutama algoritma berbasis jarak seperti KNN, SVM, atau Gradient Boosting. Scaling memastikan setiap fitur memiliki kontribusi yang seimbang dalam pembelajaran model. StandardScaler melakukan standarisasi fitur dengan mengubah nilai setiap fitur agar memiliki rata-rata 0 dan standar deviasi 1. Scaler dilatih pada data pelatihan (`fit_transform`), kemudian digunakan untuk mentransformasi data uji (`transform`) agar konsisten. Setelah itu, data hasil scaling dikonversi kembali ke DataFrame agar lebih mudah dikelola.
 
-Alasannya, log1p transformasi mengurangi pengaruh nilai ekstrim dengan menekan nilai besar sehingga distribusi data menjadi lebih simetris dan variansnya lebih stabil. Selain itu, penambahan 1 sebelum log menghindari masalah matematis seperti log(0) yang tidak terdefinisi.
+Dengan langkah ini, model dapat belajar lebih efektif tanpa bias dari perbedaan skala fitur.
 
-Dengan transformasi ini, model machine learning dapat lebih mudah mempelajari pola dalam data, meningkatkan akurasi, dan mempercepat proses pelatihan. Transformasi juga membantu model dalam melakukan generalisasi dengan lebih baik terhadap data baru.
 
-### **Standarization**
-Model machine learning biasanya bekerja lebih baik jika semua fitur input berada pada skala yang sama. Namun, data asli sering kali memiliki rentang nilai yang berbeda-beda, misalnya kadar alkohol bisa berkisar antara 8 sampai 15, sementara pH hanya sekitar 2 sampai 4.
-
-Oleh karena itu, kita perlu melakukan standarisasi untuk mengubah fitur-fitur tersebut ke dalam skala yang seragam, yaitu dengan mean 0 dan standar deviasi 1.
-
-Alasannya, standarisasi:
-- Membantu model machine learning belajar lebih cepat dan stabil, karena nilai fitur tidak lagi berada pada skala yang sangat berbeda.
-- Mencegah fitur dengan nilai besar mendominasi proses pelatihan dan pengambilan keputusan model.
-- Meningkatkan performa dan akurasi model, terutama untuk algoritma yang sensitif terhadap skala seperti SVM, KNN, dan regresi linier.
-- Dengan melakukan standarisasi, model dapat memanfaatkan semua fitur secara seimbang sehingga hasil prediksi menjadi lebih akurat dan dapat diandalkan.
 
 ---
 
