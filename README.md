@@ -292,46 +292,97 @@ Fitur memiliki skala dan satuan yang berbeda-beda, yang dapat mempengaruhi perfo
 Dengan langkah ini, model dapat belajar lebih efektif tanpa bias dari perbedaan skala fitur.
 
 ## **Modeling**
-### **Proses Pemodelan dan Hyperparameter Tuning**
+### **Modelling and Hyperparameter Tuning**
 
 Pada tahap pemodelan, digunakan lima algoritma klasifikasi populer: Random Forest, Support Vector Machine (SVM), K-Nearest Neighbors (KNN), XGBoost, dan Gradient Boosting. Masing-masing model dilatih dan dievaluasi dengan menggunakan **Randomized Search** untuk mencari kombinasi hyperparameter terbaik secara efisien.
 
-### **Parameter yang Disesuaikan**
 Setiap model memiliki beberapa hyperparameter utama yang di-tuning, misalnya jumlah estimator (`n_estimators`), kedalaman pohon (`max_depth`), laju pembelajaran (`learning_rate`), dan parameter spesifik seperti `C` dan `gamma` pada SVM atau `n_neighbors` pada KNN. Pemilihan rentang parameter didasarkan pada praktik terbaik dan karakteristik masing-masing algoritma.
 
-### **Kelebihan dan Kekurangan Algoritma**
+### **Pros and Const Model**
 
 - **Random Forest**  
-  Kelebihan: Robust terhadap overfitting, mudah diinterpretasi dengan feature importance.  
-  Kekurangan: Bisa lambat untuk dataset sangat besar dan kurang efektif untuk data sangat imbalanced tanpa penanganan khusus.
+  `Pro`: Robust terhadap overfitting, mudah diinterpretasi dengan feature importance.  
+  `Contra`: Bisa lambat untuk dataset sangat besar dan kurang efektif untuk data sangat imbalanced tanpa penanganan khusus.  
+  `Cara Kerja`: Membangun banyak pohon keputusan (decision trees) secara acak pada subset data dan fitur berbeda (bagging). Prediksi akhir didasarkan pada voting mayoritas dari semua pohon untuk klasifikasi.
 
-- **SVM**  
-  Kelebihan: Efektif pada dataset berdimensi tinggi dan mampu menangani non-linearitas dengan kernel.  
-  Kekurangan: Sensitif terhadap pemilihan hyperparameter dan bisa lambat pada dataset besar.
+- **Support Vector Machine (SVM)**  
+  `Pro`: Efektif pada dataset berdimensi tinggi dan mampu menangani non-linearitas dengan kernel.  
+  `Contra`: Sensitif terhadap pemilihan hyperparameter dan bisa lambat pada dataset besar.  
+  `Cara Kerja`: Mencari hyperplane optimal yang memisahkan kelas dengan margin terluas, dan menggunakan fungsi kernel untuk mengubah data menjadi ruang berdimensi lebih tinggi agar kelas dapat dipisahkan secara linear.
 
-- **KNN**  
-  Kelebihan: Sederhana dan mudah diimplementasikan, bagus untuk data dengan pola lokal.  
-  Kekurangan: Performa menurun pada dimensi tinggi dan data besar, serta sensitif terhadap skala fitur.
+- **K-Nearest Neighbors (KNN)**  
+  `Pro`: Sederhana dan mudah diimplementasikan, bagus untuk data dengan pola lokal.  
+  `Contra`: Performa menurun pada dimensi tinggi dan data besar, serta sensitif terhadap skala fitur.  
+  `Cara Kerja`: Mengklasifikasikan data baru berdasarkan mayoritas label dari k tetangga terdekatnya menurut jarak tertentu (misal Euclidean distance).
 
 - **XGBoost**  
-  Kelebihan: Sangat powerful, menggabungkan boosting dengan regularisasi sehingga meminimalisir overfitting.  
-  Kekurangan: Perlu tuning hyperparameter yang cermat dan lebih kompleks.
+  `Pro`: Sangat powerful, menggabungkan boosting dengan regularisasi sehingga meminimalisir overfitting.  
+  `Contra`: Perlu tuning hyperparameter yang cermat dan lebih kompleks.  
+  `Cara Kerja`: Menggunakan metode boosting gradient dimana model dibangun secara berurutan, setiap model baru memperbaiki kesalahan model sebelumnya dengan menambahkan pohon keputusan yang meminimalkan loss function dan regularisasi.
 
 - **Gradient Boosting**  
-  Kelebihan: Baik untuk data dengan hubungan non-linear dan mampu menghasilkan prediksi akurat.  
-  Kekurangan: Lebih lambat dibanding Random Forest dan rentan overfitting jika tidak diatur dengan baik.
+  `Pro`: Baik untuk data dengan hubungan non-linear dan mampu menghasilkan prediksi akurat.  
+  `Contra`: Lebih lambat dibanding Random Forest dan rentan overfitting jika tidak diatur dengan baik.  
+  `Cara Kerja`: Mirip XGBoost, membangun model secara bertahap dengan menambahkan pohon keputusan yang mengoreksi kesalahan residual model sebelumnya melalui optimasi fungsi loss.
 
-### **Proses Improvement dengan Hyperparameter Tuning**
 
 Untuk setiap model, dilakukan hyperparameter tuning menggunakan **Randomized Search**, yang memungkinkan eksplorasi lebih luas dan efisien dibanding grid search. Proses ini meningkatkan performa model dengan menemukan kombinasi parameter terbaik sesuai data.
 
-### **Pemilihan Model Terbaik**
 
-Karena menggunakan beberapa algoritma, hasil evaluasi dibandingkan dan dipilih model dengan performa terbaik sebagai solusi akhir. Pemilihan ini didasarkan pada metrik evaluasi utama (misalnya akurasi, F1-score), kestabilan, dan kemampuan generalisasi model pada data uji.
+## **Evaluation**
 
-Model terbaik menjadi pilihan utama karena memberikan keseimbangan terbaik antara akurasi dan kompleksitas, serta cocok untuk karakteristik dataset dan tujuan prediksi kualitas anggur.
+Dalam membandingkan performa model machine learning untuk klasifikasi kualitas anggur, digunakan beberapa metrik evaluasi berikut:
 
+- **Test Accuracy**  
+  Mengukur persentase prediksi yang benar pada data uji yang belum pernah dilihat model. Akurasi memberikan gambaran umum tentang seberapa baik model bekerja secara keseluruhan.
 
+- **F1 Score**  
+  Menggabungkan precision dan recall dalam satu nilai harmonis, terutama penting bila data tidak seimbang (imbalance). F1 Score memastikan model tidak hanya akurat secara keseluruhan, tetapi juga efektif dalam menangkap kelas minoritas dan menghindari false positive.
+
+- **Cross-Validation Mean Accuracy**  
+  Memberikan estimasi performa model yang lebih stabil dan generalisasi yang lebih baik dengan menguji model pada beberapa subset data (fold). Ini membantu menghindari overfitting dan memberikan gambaran yang lebih realistis mengenai performa model pada data baru.
+
+- **Cross-Validation Standard Deviation**  
+  Menunjukkan variasi performa model pada setiap fold cross-validation. Nilai yang kecil menandakan model yang konsisten dan stabil di berbagai pembagian data, sedangkan nilai besar bisa mengindikasikan ketidakstabilan atau sensitivitas model terhadap data tertentu.
+
+Penggunaan keempat metrik ini bersama-sama memberikan evaluasi yang komprehensif: akurasi dan keseimbangan klasifikasi, serta kestabilan dan kemampuan generalisasi model.
+
+##
+
+| Model              | Test Accuracy | F1 Score | CV Mean Accuracy | CV Std Dev |
+|--------------------|---------------|----------|------------------|------------|
+| Random Forest      | 0.8569        | 0.8518   | 0.8408           | 0.0052     |
+| XGBoost            | 0.8401        | 0.8359   | 0.8354           | 0.0027     |
+| Gradient Boosting   | 0.8397        | 0.8375   | 0.8265           | 0.0022     |
+| SVM                | 0.7880        | 0.7798   | 0.7710           | 0.0065     |
+| KNN                | 0.7831        | 0.7653   | 0.7677           | 0.0049     |
+
+## Model Terbaik
+Model terbaik adalah **Random Forest** karena:
+- Memiliki akurasi uji tertinggi (85.69%)
+- F1 Score terbaik (0.8518), menunjukkan keseimbangan antara precision dan recall
+- Cross-validation menunjukkan hasil yang stabil dengan standar deviasi kecil (0.0052)
+
+## Penjelasan Metrik Evaluasi
+
+### Accuracy
+Persentase prediksi yang benar dari keseluruhan data.
+
+Accuracy dihitung dengan rumus:
+![Rumus akurasi](https://miro.medium.com/v2/resize:fit:1400/1*yUvmDn0nlVdS5BR10TRdKg.png)
+### F1 Score
+Harmonik rata-rata dari precision dan recall, mengukur keseimbangan antara keduanya.
+
+![F1 Score Rumus](https://miro.medium.com/v2/resize:fit:1400/1*GFFeaVMjM4z7P5KpEGPOiw.png)
+
+### Cross-Validation Mean Accuracy
+Rata-rata akurasi yang didapat dari beberapa kali pembagian data secara bergantian untuk menguji stabilitas model.
+
+### Cross-Validation Standard Deviation
+Ukuran variasi akurasi dari hasil cross-validation, nilai kecil menunjukkan model yang konsisten.
+
+## Cara Kerja Model Random Forest (Singkat)
+Random Forest membangun banyak pohon keputusan (decision trees) secara acak pada subset data dan fitur yang berbeda (bagging). Prediksi akhir ditentukan berdasarkan voting mayoritas dari semua pohon tersebut. Metode ini mengurangi risiko overfitting dan meningkatkan akurasi prediksi.
 
 
 
