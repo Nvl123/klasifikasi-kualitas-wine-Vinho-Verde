@@ -387,7 +387,7 @@ Random Forest membangun banyak pohon keputusan (decision trees) secara acak pada
 
 
 ---
-
+# **Referensi**
 1. *Vilela, A., Marques, C., & Correia, E. (2018). Structural Equation Modelling (SEM) applied to sensory profile of Vinho Verde monovarietal wines.. Food research international, 111, 650-660 . https://doi.org/10.1016/j.foodres.2018.05.077.*
 2. *Oliveira, J., Araújo, I., Pereira, O., Maia, J., Amaral, A., & Maia, M. (2004). Characterization and differentiation of five “vinhos verdes” grape varieties on the basis of monoterpenic compounds. Analytica Chimica Acta, 513, 269-275. https://doi.org/10.1016/J.ACA.2003.10.020*.
 3. *Stanco, M., Lerro, M., & Marotta, G. (2020). Consumers’ Preferences for Wine Attributes: A Best-Worst Scaling Analysis. Sustainability. https://doi.org/10.3390/su12072819.*
