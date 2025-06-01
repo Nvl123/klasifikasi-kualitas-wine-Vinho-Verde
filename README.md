@@ -207,8 +207,8 @@ Fitur-fitur ini dibuat berdasarkan pemahaman domain untuk memperkaya informasi d
 
 
 ### **Calculate and remove outliers**
+![boxplot](https://drive.google.com/uc?export=view&id=1Qr7Q4ekoxaQ0RZXbIM5OIk0SinyeDg7X)
 
-![boxplot](https://drive.google.com/uc?export=view&id=/1Qr7Q4ekoxaQ0RZXbIM5OIk0SinyeDg7X)
 
 dari boxplot di atas dapat disimpulkan:
 - Banyak fitur memiliki outlier yang signifikan, terutama untuk sulfur dioxide (free dan total), residual sugar, dan chlorides.
