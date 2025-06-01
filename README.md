@@ -291,6 +291,48 @@ Fitur memiliki skala dan satuan yang berbeda-beda, yang dapat mempengaruhi perfo
 
 Dengan langkah ini, model dapat belajar lebih efektif tanpa bias dari perbedaan skala fitur.
 
+## **Modeling**
+### **Proses Pemodelan dan Hyperparameter Tuning**
+
+Pada tahap pemodelan, digunakan lima algoritma klasifikasi populer: Random Forest, Support Vector Machine (SVM), K-Nearest Neighbors (KNN), XGBoost, dan Gradient Boosting. Masing-masing model dilatih dan dievaluasi dengan menggunakan **Randomized Search** untuk mencari kombinasi hyperparameter terbaik secara efisien.
+
+### **Parameter yang Disesuaikan**
+Setiap model memiliki beberapa hyperparameter utama yang di-tuning, misalnya jumlah estimator (`n_estimators`), kedalaman pohon (`max_depth`), laju pembelajaran (`learning_rate`), dan parameter spesifik seperti `C` dan `gamma` pada SVM atau `n_neighbors` pada KNN. Pemilihan rentang parameter didasarkan pada praktik terbaik dan karakteristik masing-masing algoritma.
+
+### **Kelebihan dan Kekurangan Algoritma**
+
+- **Random Forest**  
+  Kelebihan: Robust terhadap overfitting, mudah diinterpretasi dengan feature importance.  
+  Kekurangan: Bisa lambat untuk dataset sangat besar dan kurang efektif untuk data sangat imbalanced tanpa penanganan khusus.
+
+- **SVM**  
+  Kelebihan: Efektif pada dataset berdimensi tinggi dan mampu menangani non-linearitas dengan kernel.  
+  Kekurangan: Sensitif terhadap pemilihan hyperparameter dan bisa lambat pada dataset besar.
+
+- **KNN**  
+  Kelebihan: Sederhana dan mudah diimplementasikan, bagus untuk data dengan pola lokal.  
+  Kekurangan: Performa menurun pada dimensi tinggi dan data besar, serta sensitif terhadap skala fitur.
+
+- **XGBoost**  
+  Kelebihan: Sangat powerful, menggabungkan boosting dengan regularisasi sehingga meminimalisir overfitting.  
+  Kekurangan: Perlu tuning hyperparameter yang cermat dan lebih kompleks.
+
+- **Gradient Boosting**  
+  Kelebihan: Baik untuk data dengan hubungan non-linear dan mampu menghasilkan prediksi akurat.  
+  Kekurangan: Lebih lambat dibanding Random Forest dan rentan overfitting jika tidak diatur dengan baik.
+
+### **Proses Improvement dengan Hyperparameter Tuning**
+
+Untuk setiap model, dilakukan hyperparameter tuning menggunakan **Randomized Search**, yang memungkinkan eksplorasi lebih luas dan efisien dibanding grid search. Proses ini meningkatkan performa model dengan menemukan kombinasi parameter terbaik sesuai data.
+
+### **Pemilihan Model Terbaik**
+
+Karena menggunakan beberapa algoritma, hasil evaluasi dibandingkan dan dipilih model dengan performa terbaik sebagai solusi akhir. Pemilihan ini didasarkan pada metrik evaluasi utama (misalnya akurasi, F1-score), kestabilan, dan kemampuan generalisasi model pada data uji.
+
+Model terbaik menjadi pilihan utama karena memberikan keseimbangan terbaik antara akurasi dan kompleksitas, serta cocok untuk karakteristik dataset dan tujuan prediksi kualitas anggur.
+
+
+
 
 
 ---
