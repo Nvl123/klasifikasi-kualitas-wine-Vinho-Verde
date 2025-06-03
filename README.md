@@ -148,7 +148,10 @@ dari hasil histogram maka:
 
 
 **Kesimpulan**
-dari heatmap korelasi di atas dapat disimpulkan `alcohol` memiliki memiliki korelasi yang sangat baik dengan `quality`
+1. `residual sugar` dengan `total sulfur dioxide` mencapai `50`
+2. `residual sugar` dengan `desnity` mencapai `55`
+3. `free sulful dioxode` dengan `toal sulfur dioxide` mencapai `72`
+4. `alcohol` dengan `desnity` memiliki hubungan negatif `-69` 
 
 ## **Data Preparation**
 ### **Calculate and remove missing values**
