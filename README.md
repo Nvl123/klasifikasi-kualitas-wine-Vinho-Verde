@@ -332,6 +332,56 @@ Setiap model memiliki beberapa hyperparameter utama yang di-tuning, misalnya jum
 
 Untuk setiap model, dilakukan hyperparameter tuning menggunakan **Randomized Search**, yang memungkinkan eksplorasi lebih luas dan efisien dibanding grid search. Proses ini meningkatkan performa model dengan menemukan kombinasi parameter terbaik sesuai data.
 
+1. **Random Forest:**
+
+- n_estimators: jumlah pohon dalam hutan, diuji pada rentang 100 hingga 200 pohon.
+
+- max_depth: kedalaman maksimum pohon, diuji pada nilai 10 dan tanpa batasan (None).
+
+- min_samples_split: jumlah minimum sampel yang dibutuhkan untuk membagi sebuah node, diuji pada nilai 2 dan 5.
+
+- min_samples_leaf: jumlah minimum sampel pada daun pohon, diuji pada nilai 1 dan 2.
+
+- max_features: jumlah fitur yang dipertimbangkan saat mencari split terbaik, menggunakan metode 'sqrt'.
+
+2. **Support Vector Machine (SVM):**
+
+- C: parameter regularisasi, diuji pada nilai 1 dan 10.
+
+- kernel: fungsi kernel yang digunakan, memakai kernel radial basis function ('rbf').
+
+- gamma: parameter kernel, diuji pada opsi 'scale' dan 0.01.
+
+3. **K-Nearest Neighbors (KNN):**
+
+- n_neighbors: jumlah tetangga terdekat yang dipertimbangkan, diuji pada nilai 5 dan 9.
+
+- weights: metode pemberian bobot pada tetangga, menggunakan 'uniform' (bobot sama).
+
+- metric: metrik jarak yang digunakan, menggunakan jarak Euclidean.
+
+4. **XGBoost:**
+
+- n_estimators: jumlah pohon boosting, diuji pada 100 dan 200 pohon.
+
+- max_depth: kedalaman maksimum tiap pohon, diuji pada nilai 3 dan 6.
+
+- learning_rate: laju pembelajaran, menggunakan nilai 0.1.
+
+- subsample: proporsi sampel yang digunakan setiap iterasi, menggunakan nilai 0.9.
+
+- colsample_bytree: proporsi fitur yang dipakai untuk membangun tiap pohon, menggunakan nilai 0.9.
+
+5. **Gradient Boosting:**
+
+- n_estimators: jumlah pohon boosting, diuji pada 100 dan 200 pohon.
+
+- max_depth: kedalaman maksimum tiap pohon, diuji pada nilai 3 dan 5.
+
+- learning_rate: laju pembelajaran, menggunakan nilai 0.1.
+
+- subsample: proporsi sampel yang digunakan setiap iterasi, menggunakan nilai 0.9.
+
 
 ## **Evaluation**
 
