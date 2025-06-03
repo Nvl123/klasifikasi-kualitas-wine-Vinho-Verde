@@ -116,8 +116,7 @@ dari tabel di atas kita mendapatkan beberapa informasi tambahan :
 7. Residual sugar maksimum sangat tinggi yaitu 65.80, kemungkinan ada anggur yang sangat manis.
 
 ### Univariate Analysis
-
-![Univariate](https://drive.google.com/uc?export=view&id=1xdYhYAx_5MkK-10LMGkNNfhoCWNG8YRG)
+![univariate](https://github.com/user-attachments/assets/58e3d0e5-da8e-4b42-a580-8aa75e7cd431)
 
 dari hasil histogram maka:
 
@@ -144,8 +143,9 @@ dari hasil histogram maka:
 
 ### Multivariate Analysis
 
+![multivariate](https://github.com/user-attachments/assets/101c5d2f-3277-4da6-9db0-e1df9e12dbe2)
 
-![Multivariate](https://drive.google.com/uc?export=view&id=1qco5JxFETuNBgEFfgPnWUNrs9MKvc8cc)
+
 
 **Kesimpulan**
 dari heatmap korelasi di atas dapat disimpulkan `alcohol` memiliki memiliki korelasi yang sangat baik dengan `quality`
@@ -207,7 +207,8 @@ Fitur-fitur ini dibuat berdasarkan pemahaman domain untuk memperkaya informasi d
 
 
 ### **Calculate and remove outliers**
-![boxplot](https://drive.google.com/uc?export=view&id=1Qr7Q4ekoxaQ0RZXbIM5OIk0SinyeDg7X)
+
+![boxplto_outiers](https://github.com/user-attachments/assets/e3b49f60-356f-458a-a8ee-9123eaf84f46)
 
 
 dari boxplot di atas dapat disimpulkan:
